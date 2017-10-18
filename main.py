@@ -21,6 +21,22 @@ def win():
 		return True
 	return False
 
+def draw_Board():
+	global BOARD , n , block_size , screen , BLACK , BLUE , ORANGE
+	for x in range(n):
+			for y in range(n):
+				if BOARD[y][x]==0:
+					rect=pygame.Rect(x*block_size,y*block_size,block_size,block_size)
+					pygame.draw.rect(screen,BLACK,rect,5)
+				elif BOARD[y][x]==1:
+					rect=pygame.Rect(x*block_size,y*block_size,block_size,block_size)
+					pygame.draw.rect(screen,BLUE,rect)
+					pygame.draw.rect(screen,BLACK,rect,5)
+				elif BOARD[y][x]==2:
+					rect=pygame.Rect(x*block_size,y*block_size,block_size,block_size)
+					pygame.draw.rect(screen,ORANGE,rect)
+					pygame.draw.rect(screen,BLACK,rect,5)
+
 pygame.init()
 screen = pygame.display.set_mode((n*block_size,n*block_size))
 screen.fill(WHITE)
@@ -53,19 +69,7 @@ while not done:
 	
 	screen.fill(WHITE)
 	if not win() and turn != n**2:
-		for x in range(n):
-			for y in range(n):
-				if BOARD[y][x]==0:
-					rect=pygame.Rect(x*block_size,y*block_size,block_size,block_size)
-					pygame.draw.rect(screen,BLACK,rect,5)
-				elif BOARD[y][x]==1:
-					rect=pygame.Rect(x*block_size,y*block_size,block_size,block_size)
-					pygame.draw.rect(screen,BLUE,rect)
-					pygame.draw.rect(screen,BLACK,rect,5)
-				elif BOARD[y][x]==2:
-					rect=pygame.Rect(x*block_size,y*block_size,block_size,block_size)
-					pygame.draw.rect(screen,ORANGE,rect)
-					pygame.draw.rect(screen,BLACK,rect,5)
+		draw_Board()
 	elif win():
 		text = font.render("PLAYER-"+str((turn-1)%2+1)+" WINS!!!!" , True , BLUE)
 		screen.blit(text , (n*block_size/2-text.get_width()//2 , n*block_size/2-text.get_height()//2))
