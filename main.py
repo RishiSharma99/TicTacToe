@@ -49,9 +49,9 @@ clock = pygame.time.Clock()
 
 turn=0
 x,y=0,0
+flag = False
 
 font = pygame.font.SysFont("comicsansms" , 72)
-match_draw = font.render("DRAW!!!", True , BLUE)
 
 while not done:
 	for event in pygame.event.get():
@@ -61,7 +61,7 @@ while not done:
 			x,y=pygame.mouse.get_pos()
 			x = math.floor(x/block_size)
 			y = math.floor(y/block_size)
-			if BOARD[y][x]==0:	
+			if BOARD[y][x]==0 and not flag:	
 				temp=copy(BOARD[y])
 				temp[x]=turn%2+1
 				BOARD[y]=temp
@@ -71,10 +71,21 @@ while not done:
 	if not win() and turn != n**2:
 		draw_Board()
 	elif win():
-		text = font.render("PLAYER-"+str((turn-1)%2+1)+" WINS!!!!" , True , BLUE)
-		screen.blit(text , (n*block_size/2-text.get_width()//2 , n*block_size/2-text.get_height()//2))
+		flag=True
+		draw_Board()
+		s=pygame.Surface((n*block_size,n*block_size))
+		s.set_alpha(128)
+		s.fill(WHITE)
+		text = font.render("PLAYER-"+str((turn-1)%2+1)+" WINS!!!!" , True , ORANGE)
+		s.blit(text , (n*block_size/2-text.get_width()//2 , n*block_size/2-text.get_height()//2))
+		screen.blit(s,(0,0))
 	elif not win() and turn == n**2:
-		screen.blit(match_draw , (n*block_size/2-match_draw.get_width()//2 , n*block_size/2-match_draw.get_height()//2))
+		draw_Board()
+		s=pygame.Surface((n*block_size,n*block_size))
+		s.set_alpha(128)
+		s.fill(WHITE)
+		match_draw = font.render("DRAW!!!", True , BLACK)
+		s.blit(match_draw , (n*block_size/2-match_draw.get_width()//2 , n*block_size/2-match_draw.get_height()//2))
+		screen.blit(s,(0,0))
 	pygame.display.flip()
 	clock.tick(60)
-print("PLAYER-"+str(turn%2+1)+" WINS!!!!")
