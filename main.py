@@ -2,7 +2,7 @@ WHITE  = (255,255,255)
 BLACK  = (0,0,0)
 BLUE   = (0,128,255)
 ORANGE = (255,100,0)
-block_size=120
+block_size=200
 n = 3
 import pygame,math
 from copy import deepcopy as copy
@@ -35,7 +35,6 @@ turn=0
 x,y=0,0
 
 font = pygame.font.SysFont("comicsansms" , 72)
-text = font.render("PLAYER-"+str(turn%2+1)+" WINS!!!!" , True , BLUE)
 match_draw = font.render("DRAW!!!", True , BLUE)
 
 while not done:
@@ -68,6 +67,7 @@ while not done:
 					pygame.draw.rect(screen,ORANGE,rect)
 					pygame.draw.rect(screen,BLACK,rect,5)
 	elif win():
+		text = font.render("PLAYER-"+str((turn-1)%2+1)+" WINS!!!!" , True , BLUE)
 		screen.blit(text , (n*block_size/2-text.get_width()//2 , n*block_size/2-text.get_height()//2))
 	elif not win() and turn == n**2:
 		screen.blit(match_draw , (n*block_size/2-match_draw.get_width()//2 , n*block_size/2-match_draw.get_height()//2))
